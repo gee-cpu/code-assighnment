@@ -20,6 +20,7 @@ public class UserDto {
     private String password;
     private double balance;
     private String name;
+    private Status status;
     public UserDto(Long id, String userName, double balance) {
     }
 }

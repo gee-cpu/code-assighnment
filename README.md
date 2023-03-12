@@ -12,7 +12,7 @@ Run mvn clean install command to build the project
 Run java -jar target/code-assighnment-0.0.1-SNAPSHOT.jar command to start the application
 Running the Tests
 To run the unit tests, execute the following command in the project root directory:
-
+ 
 bash
 Copy code
 mvn clean test

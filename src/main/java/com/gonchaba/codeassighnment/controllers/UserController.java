@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/{userName}")
     public ResponseEntity<UserDto> getUserByUserName(@PathVariable String userName) {
         Optional<CalcUser> optionalUser = Optional.ofNullable(userService.findByUserName(userName));
         if (!optionalUser.isPresent()) {
@@ -39,7 +39,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
-    @PutMapping("/{username}")
+    @PutMapping("/{userName}")
     public ResponseEntity<UserDto> updateUser(@PathVariable String userName, @RequestBody UserDto userDto) {
         Optional<CalcUser> optionalUser = Optional.ofNullable(userService.findByUserName(userName));
         if (!optionalUser.isPresent()) {

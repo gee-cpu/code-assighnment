@@ -14,4 +14,11 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+operation.addition.cost: 1.5
+operation.subtraction.cost: 1.0
+operation.multiplication.cost: 2.0
+operation.division.cost: 2.5
+operation.square_root.cost: 3.0
+operation.random_string.cost: 4.0
+
 
