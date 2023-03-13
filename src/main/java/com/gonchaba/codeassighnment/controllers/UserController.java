@@ -7,12 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
 
     private final UserService userService;
 
@@ -22,45 +19,67 @@ public class UserController {
 
     @GetMapping("/{userName}")
     public ResponseEntity<UserDto> getUserByUserName(@PathVariable String userName) {
-        Optional<CalcUser> optionalUser = Optional.ofNullable(userService.findByUserName(userName));
-        if (!optionalUser.isPresent()) {
+        CalcUser calcUser = userService.findByUserName(userName);
+        if (calcUser == null) {
             return ResponseEntity.notFound().build();
         }
-        CalcUser user = optionalUser.get();
-        UserDto userDto = new UserDto(user.getId(), user.getUserName(), user.getBalance());
+        UserDto userDto = new UserDto();
+        userDto.setId(calcUser.getId());
+        userDto.setUserName(calcUser.getUserName());
+        userDto.setPassword(calcUser.getPassword());
+        userDto.setBalance(calcUser.getBalance());
+        userDto.setStatus(calcUser.getStatus());
         return ResponseEntity.ok(userDto);
     }
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        CalcUser user = new CalcUser(userDto.getUserName(), userDto.getPassword(), userDto.getBalance());
-        userService.save(user);
-        userDto.setId(user.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+        CalcUser user = new CalcUser();
+        user.setUserName(userDto.getUserName());
+        user.setPassword(userDto.getPassword());
+        user.setBalance(userDto.getBalance());
+        user.setStatus(userDto.getStatus());
+
+        user = userService.createUser(user);
+
+        UserDto createdUserDto = new UserDto();
+        createdUserDto.setId(user.getId());
+        createdUserDto.setUserName(user.getUserName());
+        createdUserDto.setPassword(user.getPassword());
+        createdUserDto.setBalance(user.getBalance());
+        createdUserDto.setStatus(user.getStatus());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDto);
     }
+
 
     @PutMapping("/{userName}")
     public ResponseEntity<UserDto> updateUser(@PathVariable String userName, @RequestBody UserDto userDto) {
-        Optional<CalcUser> optionalUser = Optional.ofNullable(userService.findByUserName(userName));
-        if (!optionalUser.isPresent()) {
+        CalcUser calcUser = userService.findByUserName(userName);
+        if (calcUser == null) {
             return ResponseEntity.notFound().build();
         }
-        CalcUser user = optionalUser.get();
-        user.setUserName(user.getUserName());
-        user.setPassword(userDto.getPassword());
-        user.setBalance(userDto.getBalance());
-        userService.save(user);
-        userDto.setId(user.getId());
-        return ResponseEntity.ok(userDto);
+        calcUser.setPassword(userDto.getPassword());
+        CalcUser updatedUser = userService.updateUser(userName, calcUser);
+        if (updatedUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        UserDto updatedUserDto = new UserDto();
+        updatedUserDto.setId(updatedUser.getId());
+        updatedUserDto.setUserName(updatedUser.getUserName());
+        updatedUserDto.setPassword(updatedUser.getPassword());
+        updatedUserDto.setStatus(updatedUser.getStatus());
+        return ResponseEntity.ok(updatedUserDto);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
-        Optional<CalcUser> optionalUser = Optional.ofNullable(userService.findByUserName(userName));
-        if (optionalUser.isEmpty()) {
+        CalcUser calcUser = userService.findByUserName(userName);
+        if (calcUser == null) {
             return ResponseEntity.notFound().build();
         }
-        CalcUser user = optionalUser.get();
+        CalcUser user = new CalcUser();
         userService.delete(user);
         return ResponseEntity.noContent().build();
     }

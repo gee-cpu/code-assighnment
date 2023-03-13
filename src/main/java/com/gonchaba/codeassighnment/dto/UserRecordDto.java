@@ -1,6 +1,5 @@
 package com.gonchaba.codeassighnment.dto;
 
-import com.gonchaba.codeassighnment.enums.OperationType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class UserRecordDto {
     private Long id;
-    private OperationType operationType;
+    private Long operationId;
     private Double amount;
     private Double userBalance;
     private String userName;

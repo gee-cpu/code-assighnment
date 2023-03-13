@@ -1,7 +1,6 @@
 package com.gonchaba.codeassighnment.services;
 
 import com.gonchaba.codeassighnment.domain.CalcUser;
-import com.gonchaba.codeassighnment.dto.UserDto;
 import com.gonchaba.codeassighnment.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -43,20 +42,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CalcUser updateUser(String userName, UserDto user) {
+    public CalcUser updateUser(String userName, CalcUser updatedUser) {
         CalcUser existingUser = userRepository.findByUserName(userName);
         if (existingUser != null) {
-            existingUser.setPassword(user.getPassword());
-            existingUser.setUserName(user.getUserName());
-            existingUser.setId(user.getId());
-            existingUser.setBalance(existingUser.getBalance());
-            existingUser.setOperations(existingUser.getOperations());
-            existingUser.setStatus(existingUser.getStatus());
-            existingUser.setName(existingUser.getName());
+            existingUser.setPassword(updatedUser.getPassword());
+            existingUser.setUserName(updatedUser.getUserName());
+            existingUser.setBalance(updatedUser.getBalance());
+            existingUser.setStatus(updatedUser.getStatus());
             return userRepository.save(existingUser);
         }
         return null;
     }
+
 
     @Override
     public void deleteUser(String userName) {

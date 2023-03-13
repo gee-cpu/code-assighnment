@@ -1,7 +1,6 @@
 package com.gonchaba.codeassighnment.services;
 
 import com.gonchaba.codeassighnment.domain.CalcUser;
-import com.gonchaba.codeassighnment.dto.UserDto;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface UserService {
 
     CalcUser createUser(CalcUser user);
 
-    CalcUser updateUser(String userName, UserDto user);
+    CalcUser updateUser(String userName, CalcUser user);
 
     void deleteUser(String userName);
 }

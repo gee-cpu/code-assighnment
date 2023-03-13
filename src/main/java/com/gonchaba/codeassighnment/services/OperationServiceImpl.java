@@ -1,59 +1,46 @@
 package com.gonchaba.codeassighnment.services;
 
-import com.gonchaba.codeassighnment.domain.UserRecord;
+import com.gonchaba.codeassighnment.config.OperationConfig;
+import com.gonchaba.codeassighnment.domain.Operation;
 import com.gonchaba.codeassighnment.enums.OperationType;
-import com.gonchaba.codeassighnment.repository.UserRecordRepository;
+import com.gonchaba.codeassighnment.repository.OperationRepository;
 import org.apache.commons.text.RandomStringGenerator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OperationServiceImpl implements OperationService {
 
-    @Value("${operation.addition.cost}")
-    private double additionCost;
-
-    @Value("${operation.subtraction.cost}")
-    private double subtractionCost;
-
-    @Value("${operation.multiplication.cost}")
-    private double multiplicationCost;
-
-    @Value("${operation.division.cost}")
-    private double divisionCost;
-
-    @Value("${operation.square_root.cost}")
-    private double squareRootCost;
-
-    @Value("${operation.random_string.cost}")
-    private double randomStringCost;
-
-
+    private final OperationConfig operationConfig;
     private final RandomStringGenerator randomStringGenerator;
 
+    private final UserService userService;
+    private final OperationRepository operationRepository;
 
-    private final UserRecordRepository recordRepository;
 
-    public OperationServiceImpl( RandomStringGenerator randomStringGenerator, UserRecordRepository recordRepository) {
+    public OperationServiceImpl(OperationConfig operationConfig, RandomStringGenerator randomStringGenerator, UserService userService, OperationRepository operationRepository) {
+        this.operationConfig = operationConfig;
         this.randomStringGenerator = randomStringGenerator;
-        this.recordRepository = recordRepository;
+
+        this.userService = userService;
+        this.operationRepository = operationRepository;
     }
+
 
     @Override
     public double getOperationCost(OperationType operationType) {
         switch (operationType) {
             case ADDITION:
-                return additionCost;
+                return operationConfig.getAdditionCost();
             case SUBTRACTION:
-                return subtractionCost;
+                return operationConfig.getSubtractionCost();
             case MULTIPLICATION:
-                return multiplicationCost;
+                return operationConfig.getMultiplicationCost();
             case DIVISION:
-                return divisionCost;
+                return operationConfig.getDivisionCost();
             case SQUARE_ROOT:
-                return squareRootCost;
+                return operationConfig.getSquareRootCost();
             case RANDOM_STRING:
-                return randomStringCost;
+                return operationConfig.getRandomStringCost();
             default:
                 throw new IllegalArgumentException("Invalid operation type");
         }
@@ -92,12 +79,22 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public String randomString(int length) {
-        return randomStringGenerator.generate(length);
+        return null;
+    }
+
+
+    @Override
+    public Operation findByType(OperationType operationType) {
+
+        return operationRepository.findByType(operationType);
+
     }
 
     @Override
-    public void saveRecord(UserRecord record) {
-        recordRepository.save(record);
+    public void save(Operation operation) {
+        operationRepository.save(operation);
     }
+
+
 }
 

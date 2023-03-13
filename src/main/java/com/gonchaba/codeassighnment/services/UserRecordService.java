@@ -8,13 +8,12 @@ import java.util.Optional;
 
 public interface UserRecordService {
        List<UserRecord> getAllRecords();
-       List<UserRecord> getRecordsByUserName(String userName);
 
+       UserRecord save(UserRecord record);
 
-       UserRecord createRecord(UserRecord record);
+       UserRecord getRecordById(Long recordId);
 
        UserRecord updateRecord(Long id, UserRecordDto record);
-
        void deleteRecord(Long id);
 
 

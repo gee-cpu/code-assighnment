@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
@@ -20,15 +18,11 @@ public class CalcUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+
     @Email
     @Column(nullable = false, unique = true)
     private String userName;
 
-    @NotBlank
-    @Email
-    @Column(nullable = false, unique = false)
-    private String name;
 
     @NotBlank
     private String password;
@@ -36,12 +30,7 @@ public class CalcUser {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Operation> operations;
     @Column
     private double balance;
 
-
-    public CalcUser(String userName, String password, double balance) {
-    }
 }

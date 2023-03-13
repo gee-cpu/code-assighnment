@@ -23,11 +23,6 @@ public class UserRecordController {
         return userRecordService.getAllRecords();
     }
 
-    @PostMapping
-    public UserRecord createRecord(@RequestBody UserRecord record) {
-        return userRecordService.createRecord(record);
-    }
-
     @PutMapping("/{id}")
     public UserRecord updateRecord(@PathVariable Long id, @RequestBody UserRecordDto record) {
         return userRecordService.updateRecord(id, record);

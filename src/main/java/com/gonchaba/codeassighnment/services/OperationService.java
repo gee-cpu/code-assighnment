@@ -1,6 +1,6 @@
 package com.gonchaba.codeassighnment.services;
 
-import com.gonchaba.codeassighnment.domain.UserRecord;
+import com.gonchaba.codeassighnment.domain.Operation;
 import com.gonchaba.codeassighnment.enums.OperationType;
 
 public interface OperationService {
@@ -19,5 +19,9 @@ public interface OperationService {
 
     String randomString(int length);
 
-    void saveRecord(UserRecord record);
+    Operation findByType(OperationType operationType);
+
+    void save(Operation additionOperation);
+
+
 }
