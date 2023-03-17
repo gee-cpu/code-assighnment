@@ -1,11 +1,14 @@
 package com.gonchaba.codeassighnment.controllers;
 
 import com.gonchaba.codeassighnment.domain.CalcUser;
+import com.gonchaba.codeassighnment.domain.Operation;
 import com.gonchaba.codeassighnment.dto.UserDto;
 import com.gonchaba.codeassighnment.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -15,6 +18,12 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+
+    @GetMapping
+    public List<CalcUser> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{userName}")

@@ -17,10 +17,4 @@ spring:
 
 
 
-randomStringUrl: "https://www.random.org/clients"
-additionCost: 10
-subtractionCost: 10
-multiplicationCost: 10
-divisionCost: 10
-squareRootCost: 10
-randomStringCost: 10
+

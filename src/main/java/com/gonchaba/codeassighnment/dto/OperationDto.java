@@ -6,4 +6,5 @@ import lombok.Data;
 public class OperationDto {
     private Double num1;
     private Double num2;
+    private String randomStringUrl;
 }
