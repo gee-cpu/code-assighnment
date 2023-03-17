@@ -76,7 +76,10 @@ public class OperationServiceImpl implements OperationService {
 
         ResponseEntity<String> response = restTemplate.getForEntity(operationConfig.getRandomStringUrl(), String.class);
 
-        return Objects.requireNonNull(response.getBody()).trim();
+
+        String responseBody = Objects.requireNonNull(response.getBody()).trim();
+
+        return responseBody.substring(responseBody.indexOf(":") + 2, responseBody.lastIndexOf("\""));
 
     }
 
