@@ -1,6 +1,7 @@
 package com.gonchaba.codeassighnment.services;
 
 import com.gonchaba.codeassighnment.domain.CalcUser;
+import com.gonchaba.codeassighnment.enums.Status;
 import com.gonchaba.codeassighnment.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +62,19 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             userRepository.delete(user);
         }
+    }
+
+    @Override
+    public boolean userExists(String userName) {
+        CalcUser user = userRepository.findByUserName(userName);
+        return user != null && user.getStatus() == Status.ACTIVE;
+    }
+    public boolean login(String userName, String password) {
+        CalcUser user = userRepository.findByUserName(userName);
+        if (user != null && user.getPassword().equals(password) && user.getStatus() == Status.ACTIVE) {
+            return true;
+        }
+        return false;
     }
 }
 

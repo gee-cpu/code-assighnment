@@ -8,4 +8,6 @@ import lombok.Data;
 public class OperationResult {
     private Double result;
     private String operationResponse;
+    private Double updatedBalance;
+
 }

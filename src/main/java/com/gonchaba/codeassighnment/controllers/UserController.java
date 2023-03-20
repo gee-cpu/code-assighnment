@@ -2,13 +2,17 @@ package com.gonchaba.codeassighnment.controllers;
 
 import com.gonchaba.codeassighnment.domain.CalcUser;
 import com.gonchaba.codeassighnment.domain.Operation;
+import com.gonchaba.codeassighnment.dto.LogInDto;
 import com.gonchaba.codeassighnment.dto.UserDto;
 import com.gonchaba.codeassighnment.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -59,6 +63,23 @@ public class UserController {
         createdUserDto.setStatus(user.getStatus());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDto);
+    }
+    @PostMapping("/logIn")
+    public ResponseEntity<Map<String, Object>> logIn(@RequestBody LogInDto loginDto) {
+        try {
+            if (!userService.userExists(loginDto.getUserName())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", "Invalid username or password"));
+            }
+
+            String token = String.valueOf(userService.login(loginDto.getUserName(), loginDto.getPassword()));
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Cannot perform login"));
+        }
     }
 
 

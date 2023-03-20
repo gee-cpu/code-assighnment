@@ -19,4 +19,8 @@ public interface UserService {
     CalcUser updateUser(String userName, CalcUser user);
 
     void deleteUser(String userName);
+
+    boolean userExists(String userName);
+
+    boolean login(String userName, String password);
 }

@@ -12,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidParameterException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/operations")
@@ -40,20 +39,25 @@ public class OperationController {
     }
 
     @PostMapping("/operationTypes")
-    public ResponseEntity<String> performOperation(@RequestParam String userName, @RequestBody OperationDto operationDto, @RequestParam OperationType operationType) {
+    public ResponseEntity<Map<String, Object>> performOperation(@RequestParam String userName, @RequestBody OperationDto operationDto, @RequestParam OperationType operationType) {
         try {
             OperationResult operationResult = operationService.performOperation(userName, operationDto, operationType, new UserRecordDto());
             String operationResponse = operationResult.getOperationResponse();
+            Double updatedBalance = operationResult.getUpdatedBalance();
 
-            return ResponseEntity.ok(operationResponse);
+            Map<String, Object> response = new HashMap<>();
+            response.put("operationResponse", operationResponse);
+            response.put("updatedBalance", updatedBalance);
+
+            return ResponseEntity.ok(response);
         } catch (NullPointerException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User account is inactive");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "User account is inactive"));
         } catch (UnknownError e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Insufficient account balance");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "Insufficient account balance"));
         } catch (InvalidParameterException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Cannot perform operation. Check your user balance or ensure your account is activated"));
         }
     }
 

@@ -124,8 +124,10 @@ public class OperationServiceImpl implements OperationService {
 
         recordService.save(record);
 
-        return new OperationResult(result, operationResponse);
+        Double updatedBalance = user.getBalance(); // Get the updated balance
+        return new OperationResult(result, operationResponse, updatedBalance); // Add the updated balance to the return object
     }
+
 
 
     @Override
