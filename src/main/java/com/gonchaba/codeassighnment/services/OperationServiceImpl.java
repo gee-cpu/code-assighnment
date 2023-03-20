@@ -73,15 +73,12 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public String randomString(String url) {
         RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<String> response = restTemplate.getForEntity(operationConfig.getRandomStringUrl(), String.class);
-
-
+        ResponseEntity<String> response = restTemplate.getForEntity(operationConfig.getRandomStringUrl() + "/strings/?num=1&len=10&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new", String.class);
         String responseBody = Objects.requireNonNull(response.getBody()).trim();
-
-        return responseBody.substring(responseBody.indexOf(":") + 2, responseBody.lastIndexOf("\""));
-
+        return responseBody;
     }
+
+
 
     @Override
     public Operation findByType(OperationType operationType) {

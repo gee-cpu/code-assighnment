@@ -44,14 +44,16 @@ public class OperationController {
             OperationResult operationResult = operationService.performOperation(userName, operationDto, operationType, new UserRecordDto());
             String operationResponse = operationResult.getOperationResponse();
             Double updatedBalance = operationResult.getUpdatedBalance();
+            String randomString = operationService.randomString(operationDto.getRandomStringUrl());
 
             Map<String, Object> response = new HashMap<>();
             response.put("operationResponse", operationResponse);
             response.put("updatedBalance", updatedBalance);
+            response.put("randomString", randomString);
 
             return ResponseEntity.ok(response);
         } catch (NullPointerException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "User account is inactive"));
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "User account does not exist"));
         } catch (UnknownError e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "Insufficient account balance"));
         } catch (InvalidParameterException e) {

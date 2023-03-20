@@ -14,6 +14,15 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+operation:
+  additionCost: 12
+  subtractionCost: 2
+  multiplicationCost: 2
+  divisionCost: 2
+  squareRootCost: 2
+  randomStringCost: 2
+  randomStringUrl: "https://www.random.org/clients"
+
 
 
 
